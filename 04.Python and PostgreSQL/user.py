@@ -1,4 +1,4 @@
-from database import connect
+from database import connection_pool
 
 
 class User:
@@ -12,21 +12,23 @@ class User:
         return f'<user: {self.email}>'
 
     def save_to_db(self):
-        with connect() as conn:
+        with connection_pool.getconn() as conn:
             with conn.cursor() as cursor:
                 cursor.execute(
                     'INSERT INTO users (email, first_name, last_name) \
                     VALUES (%s, %s, %s)',
                     (self.email, self.first_name, self.last_name)
                 )
+        connection_pool.putconn(conn)
 
     @classmethod
     def load_from_db_by_email(cls, email):
-        with connect() as conn:
-            with conn.cursor() as cursor:
-                cursor.execute(
-                    'SELECT * FROM users WHERE email=%s', (email, )
-                )
-                user_data = cursor.fetchone()
-                return cls(user_data[1], user_data[2], user_data[3],
-                           user_data[0])
+        conn = connection_pool.getconn()
+
+        with conn.cursor() as cursor:
+            cursor.execute(
+                'SELECT * FROM users WHERE email=%s', (email, )
+            )
+            user_data = cursor.fetchone()
+            return cls(user_data[1], user_data[2], user_data[3],
+                       user_data[0])
