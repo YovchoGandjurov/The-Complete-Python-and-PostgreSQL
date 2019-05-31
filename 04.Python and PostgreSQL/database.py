@@ -1,37 +1,28 @@
 from psycopg2 import pool
-import os
-from dotenv import load_dotenv
-from pathlib import Path
-
-load_dotenv()
-load_dotenv(dotenv_path=Path('.') / '.env')
 
 
 class Database:
-    connection_pool = None
+    __connection_pool = None
 
     @classmethod
-    def initialise(cls):
-        cls.connection_pool = pool.SimpleConnectionPool(
+    def initialise(cls, **kwargs):
+        cls.__connection_pool = pool.SimpleConnectionPool(
             1,
             10,
-            user='postgres',
-            password=os.getenv('DB_PASS'),
-            database='learning',
-            host='localhost'
+            **kwargs
         )
 
     @classmethod
     def get_connection(cls):
-        return cls.connection_pool.getconn()
+        return cls.__connection_pool.getconn()
 
     @classmethod
     def return_connection(cls, conn):
-        cls.connection_pool.putconn(conn)
+        cls.__connection_pool.putconn(conn)
 
     @classmethod
     def close_all_connections(cls):
-        cls.connection_pool.closeall()
+        cls.__connection_pool.closeall()
 
 
 class CursorFromConnectionFromPool:
