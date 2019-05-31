@@ -17,14 +17,20 @@ connection_pool = pool.SimpleConnectionPool(
         )
 
 
-class ConnectionFromPool:
+class CursorFromConnectionFromPool:
     def __init__(self):
         self.conn = None
+        self.cursor = None
 
     def __enter__(self):
         self.conn = connection_pool.getconn()
-        return self.conn
+        self.cursor = self.conn.cursor()
+        return self.cursor
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        self.conn.commit()
+        if exc_val is not None:
+            self.conn.rollback()
+        else:
+            self.cursor.close()
+            self.conn.commit()
         connection_pool.putconn(self.conn)
