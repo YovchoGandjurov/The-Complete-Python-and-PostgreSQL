@@ -4,11 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <title>Search results</title>
 </head>
 <body>
-    {% for element in content %}
-        <p>{{ element }}</p>
-    {% endfor %}
+
+    <div class="container">
+        <ul class="list-group" id="tweets">
+            {% for element in content %}
+                <li class="list-group-item">{{ element }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
 </body>
 </html>
