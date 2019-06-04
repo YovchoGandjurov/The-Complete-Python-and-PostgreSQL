@@ -1,15 +1,24 @@
+import os
+from dotenv import load_dotenv
+from pathlib import Path
 from psycopg2 import pool
+
+load_dotenv()
+load_dotenv(dotenv_path=Path('.') / '.env')
 
 
 class Database:
     __connection_pool = None
 
     @classmethod
-    def initialise(cls, **kwargs):
+    def initialise(cls):
         cls.__connection_pool = pool.SimpleConnectionPool(
             1,
             10,
-            **kwargs
+            user='postgres',
+            password=os.getenv('DB_PASS'),
+            database='learning',
+            host='localhost'
         )
 
     @classmethod
