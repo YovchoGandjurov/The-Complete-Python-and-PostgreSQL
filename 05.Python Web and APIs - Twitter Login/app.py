@@ -25,7 +25,7 @@ def homepage():
 @app.route('/login/twitter')
 def twitter_login():
     if 'screen_name' in session:
-        return redirect(url_for(profile))
+        return redirect(url_for('profile'))
     request_token = get_request_token()
     session['request_token'] = request_token
 
@@ -56,5 +56,17 @@ def twitter_auth():
 @app.route('/profile')
 def profile():
     return render_template('profile.html', user=g.user)
+
+
+@app.route('/search')
+def search():
+    query = request.args.get('q')
+    tweets = g.user.twitter_request(
+        f'https://api.twitter.com/1.1/search/tweets.json?q={query}'
+    )
+    tweet_texts = [tweet['text'] for tweet in tweets['statuses']]
+
+    return render_template('search.html', content=tweet_texts)
+
 
 app.run(port=4995, debug=True)
