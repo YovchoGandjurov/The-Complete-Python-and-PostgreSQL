@@ -32,5 +32,6 @@ class User:
                 'SELECT * FROM twitter_users WHERE email=%s', (email, )
             )
             user_data = cursor.fetchone()
-            return cls(user_data[1], user_data[2], user_data[3],
-                       oauth_token[4], oauth_token_secret[5], user_data[0])
+            if user_data:
+                return cls(user_data[1], user_data[2], user_data[3],
+                           user_data[4], user_data[5], user_data[0])
