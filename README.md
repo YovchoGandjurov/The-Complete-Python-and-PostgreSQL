@@ -6,7 +6,7 @@ This repo shows all exercises and demos from the course - <a href="https://www.u
 
 ## About the course
 
-The course contains 184 lectures in 22 hours video. Below are all sections from the course:
+The course contains <b>184 lectures in 22 hours video</b>. Below are all sections from the course:
  - Python 101
  - Magic Numbers in Python
  - <a href="https://github.com/YovchoGandjurov/The-Complete-Python-and-PostgreSQL/tree/master/01.Lottery_App" target="_blank">A Lottery app</a>
