@@ -1,6 +1,6 @@
 certifi==2019.3.9
 chardet==3.0.4
-Flask==0.10.1
+Flask==1.0
 httplib2==0.12.3
 idna==2.8
 itsdangerous==1.1.0
